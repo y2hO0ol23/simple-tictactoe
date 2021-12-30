@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h> // system("cls"); 사용을 위한 해더파일
+#include <stdlib.h> // system, getch, kbhit 함수를 사용을 위한 해더파일
+#include <string.h> // memset 함수를 사용하기 위한 해더파일
 
 int lobby();
 void draw_lobby(int select);
@@ -8,38 +9,42 @@ int press(int y, int x);
 int who_win();
 void draw_end(int win);
 
-int field[3][3] = {
-	{0, 0, 0},
-	{0, 0, 0},
-	{0, 0, 0}
-};
-int turn = 0;
-int turn_cnt = 0;
+int field[3][3];
+int turn;
+int turn_cnt;
 
 char table[4] = { ' ', 'X', 'O', 'V' };
 
 int main() {
-	int select = lobby();
-	if (select == 1) return 0;
+	while (1) {
+		memset(field, 0, sizeof(field));
+		turn_cnt = 0;
+		turn = 0;
 
-	int x = 1, y = 1;
-	int win = 0;
-	draw_game(y, x);
-	while(1) {
-		if (!kbhit()) continue;
+		int select = lobby();
+		if (select == 1) return 0;
 
-		int key = getch();
-		if (key == 's' && y < 2) y += 1;
-		if (key == 'w' && y > 0) y -= 1;
-		if (key == 'd' && x < 2) x += 1;
-		if (key == 'a' && x > 0) x -= 1;
-		if (key == ' ') win = press(y, x);
-
-		if (win) break;
+		int x = 1, y = 1;
+		int win = 0;
 		draw_game(y, x);
+		while (1) {
+			if (!kbhit()) continue;
+
+			int key = getch();
+			if (key == 's' && y < 2) y += 1;
+			if (key == 'w' && y > 0) y -= 1;
+			if (key == 'd' && x < 2) x += 1;
+			if (key == 'a' && x > 0) x -= 1;
+			if (key == ' ') win = press(y, x);
+
+			if (win) break;
+			draw_game(y, x);
+		}
+
+		draw_end(win);
+		while (!kbhit());
+		int key = getch();
 	}
-	draw_end(win);
-	while (!kbhit());
 }
 
 int lobby() {
@@ -136,9 +141,10 @@ int who_win() {
 }
 
 void draw_end(int win) {
-	system("cls");
+	draw_game(-1, -1);
+	printf("\n\n");
 	if (win == 1) printf("X win!");
 	if (win == 2) printf("O win!");
 	if (win == 3) printf("draw!");
-	printf("\n\npress any key to exit program...");
+	printf("\n\npress any key to go lobby..");
 }
