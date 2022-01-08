@@ -50,7 +50,7 @@ int main() {
 int lobby() {
 	int select = 0;
 	draw_lobby(select);
-	while(1) {
+	while (1) {
 		if (!kbhit()) continue;
 
 		int key = getch();
@@ -70,7 +70,7 @@ void draw_lobby(int select) {
 	printf("│      tictactoe     │\n");
 	printf("└────────────────────┘\n");
 	printf("\n");
-	printf("       %c start\n",(select == 0) ? '-' : ' ');
+	printf("       %c start\n", (select == 0) ? '-' : ' ');
 	printf("       %c exit\n", (select == 1) ? '-' : ' ');
 }
 
@@ -83,14 +83,14 @@ void draw_game(int y, int x) {
 	};
 	output[y][x][0] = 'V';
 	output[y][x][1] = '\0';
-	  printf("┌─%s┬─%s┬─%s┐", output[0][0], output[0][1], output[0][2]); printf("\t% c turn\n", (turn == 0)  ? 'X' : 'O');
-	  printf("│"); for (int i = 0; i < 3; i++) printf(" %c│", table[field[0][i]]);
+	printf("┌─%s┬─%s┬─%s┐", output[0][0], output[0][1], output[0][2]); printf("\t% c turn\n", (turn == 0) ? 'X' : 'O');
+	printf("│"); for (int i = 0; i < 3; i++) printf(" %c│", table[field[0][i]]);
 
 	printf("\n├─%s┼─%s┼─%s┤\n", output[1][0], output[1][1], output[1][2]);
-	  printf("│"); for (int i = 0; i < 3; i++) printf(" %c│", table[field[1][i]]);
+	printf("│"); for (int i = 0; i < 3; i++) printf(" %c│", table[field[1][i]]);
 
 	printf("\n├─%s┼─%s┼─%s┤\n", output[2][0], output[2][1], output[2][2]);
-	  printf("│"); for (int i = 0; i < 3; i++) printf(" %c│", table[field[2][i]]);
+	printf("│"); for (int i = 0; i < 3; i++) printf(" %c│", table[field[2][i]]);
 	printf("\n└──┴──┴──┘");
 }
 
@@ -99,7 +99,7 @@ int press(int y, int x) {
 	field[y][x] = 1 + turn;
 	turn = (turn + 1) % 2;
 	turn_cnt++;
-	
+
 	int w = who_win();
 	if (w) return w;
 	if (turn_cnt == 9) return 3;
@@ -125,7 +125,7 @@ int who_win() {
 	}
 	if (field[0][0] != 0) {
 		int is_same = 1;
-		for (int i=0;i<3;i++)
+		for (int i = 0; i < 3; i++)
 			if (field[0][0] != field[i][i]) is_same = 0;
 
 		if (is_same) return field[0][0];
@@ -133,7 +133,7 @@ int who_win() {
 	if (field[0][2] != 0) {
 		int is_same = 1;
 		for (int i = 1; i < 3; i++)
-			if (field[0][0] != field[i][2-i]) is_same = 0;
+			if (field[0][2] != field[i][2 - i]) is_same = 0;
 
 		if (is_same) return field[0][2];
 	}
